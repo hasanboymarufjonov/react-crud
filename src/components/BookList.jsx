@@ -1,6 +1,6 @@
 import { FaEdit, FaTrash } from "react-icons/fa";
 
-const UserList = ({ users, onEdit, onDelete }) => {
+const BookList = ({ books, onEdit, onDelete }) => {
   return (
     <div className="overflow-x-auto w-full max-h-[400px]">
       <table className="min-w-full table-fixed border-collapse bg-white shadow-sm rounded-md">
@@ -10,16 +10,25 @@ const UserList = ({ users, onEdit, onDelete }) => {
               #
             </th>
             <th className="border p-3 text-center text-gray-200 font-semibold">
-              Full Name
+              Title
             </th>
             <th className="border p-3 text-center text-gray-200 font-semibold">
-              Age
+              Author
             </th>
             <th className="border p-3 text-center text-gray-200 font-semibold">
-              Location
+              Genre
             </th>
             <th className="border p-3 text-center text-gray-200 font-semibold">
-              Gender
+              ISBN
+            </th>
+            <th className="border p-3 text-center text-gray-200 font-semibold">
+              Published
+            </th>
+            <th className="border p-3 text-center text-gray-200 font-semibold">
+              Pages
+            </th>
+            <th className="border p-3 text-center text-gray-200 font-semibold">
+              Language
             </th>
             <th className="border p-3 text-center text-gray-200 font-semibold w-20">
               Edit
@@ -30,30 +39,39 @@ const UserList = ({ users, onEdit, onDelete }) => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user, index) => (
+          {books.map((book, index) => (
             <tr
-              key={user.id}
+              key={book.id}
               className="border-b hover:bg-gray-50 transition duration-200"
             >
               <td className="p-3 text-center text-gray-800 align-middle">
                 {index + 1}
               </td>
               <td className="p-3 text-center text-gray-800 align-middle">
-                {user.fullName}
+                {book.title}
               </td>
               <td className="p-3 text-center text-gray-800 align-middle">
-                {user.age}
+                {book.author}
               </td>
               <td className="p-3 text-center text-gray-800 align-middle">
-                {user.location}
+                {book.genre}
               </td>
               <td className="p-3 text-center text-gray-800 align-middle">
-                {user.gender}
+                {book.isbn}
+              </td>
+              <td className="p-3 text-center text-gray-800 align-middle">
+                {book.published}
+              </td>
+              <td className="p-3 text-center text-gray-800 align-middle">
+                {book.pageCount}
+              </td>
+              <td className="p-3 text-center text-gray-800 align-middle">
+                {book.language}
               </td>
               <td className="p-2 text-center align-middle">
                 <button
-                  className="px-3 py-1 bg-gray-500 text-white  hover:bg-gray-600 flex items-center justify-center gap-1"
-                  onClick={() => onEdit(user)}
+                  className="px-3 py-1 bg-gray-500 text-white hover:bg-gray-600 flex items-center justify-center gap-1"
+                  onClick={() => onEdit(book)}
                 >
                   <FaEdit /> Edit
                 </button>
@@ -61,17 +79,24 @@ const UserList = ({ users, onEdit, onDelete }) => {
               <td className="p-2 text-center align-middle">
                 <button
                   className="px-3 py-1 bg-gray-700 text-white hover:bg-gray-800 flex items-center justify-center gap-1"
-                  onClick={() => onDelete(user.id)}
+                  onClick={() => onDelete(book.id)}
                 >
                   <FaTrash /> Delete
                 </button>
               </td>
             </tr>
           ))}
+          {books.length === 0 && (
+            <tr>
+              <td colSpan="10" className="p-3 text-center text-gray-500">
+                No books found.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
   );
 };
 
-export default UserList;
+export default BookList;

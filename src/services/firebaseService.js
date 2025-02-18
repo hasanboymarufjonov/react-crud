@@ -1,50 +1,37 @@
-import { db } from "../firebaseConfig";
+import { db, auth } from "../firebaseConfig";
 import {
   collection,
   addDoc,
-  getDocs,
   updateDoc,
   deleteDoc,
   doc,
   onSnapshot,
+  query,
+  where,
 } from "firebase/firestore";
 
-const usersRef = collection(db, "users");
-
-export const addUser = async (userData) => {
-  const { fullName, age, location, gender } = userData;
-  const createdAt = new Date().toISOString();
-  const user = {
-    fullName,
-    age,
-    location,
-    gender,
-    createdAt,
-    updatedAt: createdAt,
-  };
-  await addDoc(usersRef, user);
-};
-
-export const getUsers = (callback) => {
-  return onSnapshot(usersRef, (snapshot) => {
-    const users = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    callback(users);
+export const getBooks = (setBooks) => {
+  const user = auth.currentUser;
+  if (!user) return;
+  const q = query(collection(db, "books"), where("userId", "==", user.uid));
+  return onSnapshot(q, (snapshot) => {
+    const books = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    setBooks(books);
   });
 };
 
-export const updateUser = async (id, userData) => {
-  const updatedAt = new Date().toISOString();
-  const userDoc = doc(db, "users", id);
-  await updateDoc(userDoc, {
-    ...userData,
-    updatedAt,
-  });
+export const addBook = async (data) => {
+  const user = auth.currentUser;
+  if (!user) return;
+  await addDoc(collection(db, "books"), { ...data, userId: user.uid });
 };
 
-export const deleteUser = async (id) => {
-  const userDoc = doc(db, "users", id);
-  await deleteDoc(userDoc);
+export const updateBook = async (id, data) => {
+  const bookRef = doc(db, "books", id);
+  await updateDoc(bookRef, data);
+};
+
+export const deleteBook = async (id) => {
+  const bookRef = doc(db, "books", id);
+  await deleteDoc(bookRef);
 };

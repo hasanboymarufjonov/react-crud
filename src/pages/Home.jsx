@@ -1,52 +1,51 @@
 import { useState, useEffect } from "react";
 import {
-  getUsers,
-  addUser,
-  updateUser,
-  deleteUser,
+  getBooks,
+  addBook,
+  updateBook,
+  deleteBook,
 } from "../services/firebaseService";
-import UserList from "../components/UserList";
-import UserFormModal from "../components/UserFormModal";
-import { FaUserPlus, FaSignOutAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import BookList from "../components/BookList";
+import BookFormModal from "../components/BookFormModal";
+import { FaBook, FaPlus, FaSignOutAlt } from "react-icons/fa";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const [users, setUsers] = useState([]);
-  const [editId, setEditId] = useState(null);
+  const [books, setBooks] = useState([]);
+  const [editBook, setEditBook] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = getUsers(setUsers);
+    const unsubscribe = getBooks(setBooks);
     return () => unsubscribe();
   }, []);
 
-  const openModal = (user = null) => {
-    setEditId(user);
+  const openModal = (book = null) => {
+    setEditBook(book);
     setIsModalOpen(true);
   };
-
   const closeModal = () => {
     setIsModalOpen(false);
-    setEditId(null);
+    setEditBook(null);
   };
 
-  const onSubmit = async (data) => {
-    if (editId) {
-      await updateUser(editId.id, data);
+  const handleSubmit = async (bookData) => {
+    if (editBook) {
+      await updateBook(editBook.id, bookData);
     } else {
-      await addUser(data);
+      await addBook(bookData);
     }
     closeModal();
   };
 
   const handleDelete = async (id) => {
-    await deleteUser(id);
+    if (window.confirm("Are you sure you want to delete this book?")) {
+      await deleteBook(id);
+    }
   };
-
-  const navigate = useNavigate();
-  const user = auth.currentUser;
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -62,12 +61,14 @@ const Home = () => {
         <FaSignOutAlt size={18} /> Logout
       </button>
 
-      <h1 className="text-4xl font-bold mb-6">Welcome Home!</h1>
-      <p className="text-xl mb-4">Hello, {user?.displayName || "Guest"} !</p>
+      <h1 className="text-4xl font-bold mb-6">Welcome to Your Library!</h1>
+      <p className="text-xl mb-4">
+        Hello, {auth.currentUser?.displayName || "User"}!
+      </p>
 
       <div className="w-full max-w-5xl bg-white p-6 shadow-2xl rounded-xl">
-        <h1 className="text-3xl font-bold mb-6 text-center text-gray-900">
-          React CRUD
+        <h1 className="text-3xl font-bold mb-6 text-center text-gray-900 flex items-center justify-center gap-3">
+          <FaBook /> Book Collection
         </h1>
         <hr />
 
@@ -76,17 +77,17 @@ const Home = () => {
             onClick={() => openModal()}
             className="px-4 py-2 bg-gray-800 text-white hover:bg-gray-500 transition flex items-center gap-2 ml-auto"
           >
-            <FaUserPlus size={20} /> Add User
+            <FaPlus size={20} /> Add Book
           </button>
         </div>
 
-        <UserList users={users} onEdit={openModal} onDelete={handleDelete} />
+        <BookList books={books} onEdit={openModal} onDelete={handleDelete} />
       </div>
 
       {isModalOpen && (
-        <UserFormModal
-          editId={editId}
-          onSubmit={onSubmit}
+        <BookFormModal
+          editBook={editBook}
+          onSubmit={handleSubmit}
           onClose={closeModal}
         />
       )}
