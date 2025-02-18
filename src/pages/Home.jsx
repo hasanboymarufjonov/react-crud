@@ -7,7 +7,10 @@ import {
 } from "../services/firebaseService";
 import UserList from "../components/UserList";
 import UserFormModal from "../components/UserFormModal";
-import { FaUserPlus } from "react-icons/fa";
+import { FaUserPlus, FaSignOutAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 
 const Home = () => {
   const [users, setUsers] = useState([]);
@@ -42,13 +45,32 @@ const Home = () => {
     await deleteUser(id);
   };
 
+  const navigate = useNavigate();
+  const user = auth.currentUser;
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigate("/login");
+  };
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-100 to-gray-300 p-6">
-      <div className="w-full max-w-8xl bg-white p-6  shadow-2xl">
+    <div className="min-h-screen relative flex flex-col items-center justify-center bg-gradient-to-br from-gray-100 to-gray-300 p-6">
+      <button
+        onClick={handleLogout}
+        className="absolute top-4 right-4 px-4 py-2 flex items-center gap-2 bg-gray-800 text-white rounded hover:bg-gray-600 transition"
+      >
+        <FaSignOutAlt size={18} /> Logout
+      </button>
+
+      <h1 className="text-4xl font-bold mb-6">Welcome Home!</h1>
+      <p className="text-xl mb-4">Hello, {user?.displayName || "Guest"} !</p>
+
+      <div className="w-full max-w-5xl bg-white p-6 shadow-2xl rounded-xl">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-900">
           React CRUD
         </h1>
         <hr />
+
         <div className="mb-6 text-right pt-5">
           <button
             onClick={() => openModal()}
@@ -57,6 +79,7 @@ const Home = () => {
             <FaUserPlus size={20} /> Add User
           </button>
         </div>
+
         <UserList users={users} onEdit={openModal} onDelete={handleDelete} />
       </div>
 
