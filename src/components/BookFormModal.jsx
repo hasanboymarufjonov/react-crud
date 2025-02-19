@@ -128,7 +128,6 @@ const BookFormModal = ({ editBook, onSubmit, onClose }) => {
             <p className="text-red-500 text-sm">{errors.pageCount.message}</p>
           )}
 
-          {/* Language Select */}
           <select
             {...register("language", { required: "Language is required" })}
             className="p-2 border w-full"

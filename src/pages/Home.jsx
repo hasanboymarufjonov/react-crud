@@ -84,7 +84,7 @@ const Home = () => {
         Hello, {auth.currentUser?.displayName || "User"}!
       </p>
 
-      <div className="w-full max-w-5xl bg-white p-6 shadow-2xl rounded-xl ">
+      <div className="w-full max-w-6xl bg-white p-6 shadow-2xl rounded-xl ">
         <div className="mb-6 flex items-center justify-between">
           <BookSearch
             searchQuery={searchQuery}
