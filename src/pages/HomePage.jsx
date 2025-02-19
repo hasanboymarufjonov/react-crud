@@ -13,6 +13,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 const HomePage = () => {
   const [books, setBooks] = useState([]);
@@ -21,6 +22,8 @@ const HomePage = () => {
   const [editBook, setEditBook] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [selectedBookId, setSelectedBookId] = useState(null);
 
   const navigate = useNavigate();
 
@@ -70,12 +73,17 @@ const HomePage = () => {
     setIsLoading(false);
   };
 
+  const confirmDelete = (id) => {
+    setSelectedBookId(id);
+    setIsConfirmOpen(true);
+  };
+
   const handleDelete = async (id) => {
+    if (!selectedBookId) return;
     setIsLoading(true);
-    if (window.confirm("Are you sure you want to delete this book?")) {
-      await deleteBook(id);
-    }
+    await deleteBook(selectedBookId);
     toast.success("Book deleted successfully!");
+    setIsConfirmOpen(false);
     setIsLoading(false);
   };
 
@@ -117,7 +125,7 @@ const HomePage = () => {
           books={filteredBooks}
           isLoading={isLoading}
           onEdit={openModal}
-          onDelete={handleDelete}
+          onDelete={confirmDelete}
         />
       </div>
 
@@ -126,6 +134,14 @@ const HomePage = () => {
           editBook={editBook}
           onSubmit={handleSubmit}
           onClose={closeModal}
+        />
+      )}
+      {isConfirmOpen && (
+        <ConfirmationModal
+          isOpen={isConfirmOpen}
+          onClose={() => setIsConfirmOpen(false)}
+          onConfirm={handleDelete}
+          message="Are you sure you want to delete this book?"
         />
       )}
     </div>
