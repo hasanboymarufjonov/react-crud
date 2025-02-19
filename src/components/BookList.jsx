@@ -1,16 +1,42 @@
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 
 const BookList = ({ books, onEdit, onDelete }) => {
   const [currentPage, setCurrentPage] = useState(0);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+
   const booksPerPage = 5;
   const offset = currentPage * booksPerPage;
-  const currentBooks = books.slice(offset, offset + booksPerPage);
   const pageCount = Math.ceil(books.length / booksPerPage);
 
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
+  };
+
+  const handleSort = (key) => {
+    setSortConfig((prev) => ({
+      key,
+      direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc",
+    }));
+  };
+
+  const sortedBooks = [...books].sort((a, b) => {
+    if (!sortConfig.key) return 0;
+
+    const aValue = a[sortConfig.key]?.toString().toLowerCase();
+    const bValue = b[sortConfig.key]?.toString().toLowerCase();
+
+    if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
+    if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
+    return 0;
+  });
+
+  const currentBooks = sortedBooks.slice(offset, offset + booksPerPage);
+
+  const getSortIcon = (key) => {
+    if (sortConfig.key !== key) return <FaSort />;
+    return sortConfig.direction === "asc" ? <FaSortUp /> : <FaSortDown />;
   };
 
   return (
@@ -20,14 +46,32 @@ const BookList = ({ books, onEdit, onDelete }) => {
           <thead className="bg-gray-800 text-white">
             <tr>
               <th className="border p-3 text-center font-semibold w-10">#</th>
-              <th className="border p-3 text-center font-semibold">Title</th>
-              <th className="border p-3 text-center font-semibold">Author</th>
+              <th
+                className="border p-3 text-center font-semibold cursor-pointer"
+                onClick={() => handleSort("title")}
+              >
+                Title {getSortIcon("title")}
+              </th>
+              <th
+                className="border p-3 text-center font-semibold cursor-pointer"
+                onClick={() => handleSort("author")}
+              >
+                Author {getSortIcon("author")}
+              </th>
               <th className="border p-3 text-center font-semibold">Genre</th>
               <th className="border p-3 text-center font-semibold">ISBN</th>
-              <th className="border p-3 text-center font-semibold">
-                Published
+              <th
+                className="border p-3 text-center font-semibold cursor-pointer"
+                onClick={() => handleSort("published")}
+              >
+                Published {getSortIcon("published")}
               </th>
-              <th className="border p-3 text-center font-semibold">Pages</th>
+              <th
+                className="border p-3 text-center font-semibold cursor-pointer"
+                onClick={() => handleSort("pageCount")}
+              >
+                Pages {getSortIcon("pageCount")}
+              </th>
               <th className="border p-3 text-center font-semibold">Language</th>
               <th className="border p-3 text-center font-semibold w-20">
                 Edit
