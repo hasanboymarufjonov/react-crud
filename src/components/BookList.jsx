@@ -114,7 +114,7 @@ const BookList = ({ books, onEdit, onDelete }) => {
                 </td>
                 <td className="p-2 text-center">
                   <button
-                    className="px-3 py-1 bg-gray-600 text-white hover:bg-gray-700 flex items-center gap-1"
+                    className="px-3 py-1 bg-gray-600 text-white hover:bg-gray-700 flex items-center gap-1 rounded-md"
                     onClick={() => onEdit(book)}
                   >
                     <FaEdit /> Edit
@@ -122,7 +122,7 @@ const BookList = ({ books, onEdit, onDelete }) => {
                 </td>
                 <td className="p-2 text-center">
                   <button
-                    className="px-3 py-1 bg-gray-800 text-white hover:bg-gray-900 flex items-center gap-1"
+                    className="px-3 py-1 bg-gray-800 text-white hover:bg-gray-900 flex items-center gap-1 rounded-md"
                     onClick={() => onDelete(book.id)}
                   >
                     <FaTrash /> Delete
@@ -134,7 +134,7 @@ const BookList = ({ books, onEdit, onDelete }) => {
               <tr>
                 <td colSpan="10" className="py-28 text-center text-gray-500">
                   <img
-                    src="https://img.icons8.com/ios-filled/111421/300/inbox.png"
+                    src="https://img.icons8.com/ios-filled/1e2939/300/inbox.png"
                     className="mx-auto w-28"
                   />
                 </td>

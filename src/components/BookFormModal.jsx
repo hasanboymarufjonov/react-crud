@@ -62,7 +62,7 @@ const BookFormModal = ({ editBook, onSubmit, onClose }) => {
             type="text"
             placeholder="Title"
             {...register("title", { required: "Title is required" })}
-            className="p-2 border w-full"
+            className="p-2 border w-full rounded-md"
           />
           {errors.title && (
             <p className="text-red-500 text-sm">{errors.title.message}</p>
@@ -72,7 +72,7 @@ const BookFormModal = ({ editBook, onSubmit, onClose }) => {
             type="text"
             placeholder="Author"
             {...register("author", { required: "Author is required" })}
-            className="p-2 border w-full"
+            className="p-2 border w-full rounded-md"
           />
           {errors.author && (
             <p className="text-red-500 text-sm">{errors.author.message}</p>
@@ -80,7 +80,7 @@ const BookFormModal = ({ editBook, onSubmit, onClose }) => {
 
           <select
             {...register("genre", { required: "Genre is required" })}
-            className="p-2 border w-full"
+            className="p-2 border w-full rounded-md"
           >
             <option value="">Select Genre</option>
             {genres.map((genre) => (
@@ -97,7 +97,7 @@ const BookFormModal = ({ editBook, onSubmit, onClose }) => {
             type="text"
             placeholder="ISBN"
             {...register("isbn", { required: "ISBN is required" })}
-            className="p-2 border w-full"
+            className="p-2 border w-full rounded-md"
           />
           {errors.isbn && (
             <p className="text-red-500 text-sm">{errors.isbn.message}</p>
@@ -109,7 +109,7 @@ const BookFormModal = ({ editBook, onSubmit, onClose }) => {
             {...register("published", {
               required: "Published Date is required",
             })}
-            className="p-2 border w-full"
+            className="p-2 border w-full rounded-md"
           />
           {errors.published && (
             <p className="text-red-500 text-sm">{errors.published.message}</p>
@@ -122,7 +122,7 @@ const BookFormModal = ({ editBook, onSubmit, onClose }) => {
               required: "Page Count is required",
               min: 1,
             })}
-            className="p-2 border w-full"
+            className="p-2 border w-full rounded-md"
           />
           {errors.pageCount && (
             <p className="text-red-500 text-sm">{errors.pageCount.message}</p>
@@ -130,7 +130,7 @@ const BookFormModal = ({ editBook, onSubmit, onClose }) => {
 
           <select
             {...register("language", { required: "Language is required" })}
-            className="p-2 border w-full"
+            className="p-2 border w-full rounded-md"
           >
             <option value="">Select Language</option>
             {languages.map((lang) => (

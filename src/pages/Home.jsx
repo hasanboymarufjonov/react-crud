@@ -74,7 +74,7 @@ const Home = () => {
     <div className="min-h-screen relative flex flex-col items-center justify-center bg-gradient-to-br from-gray-100 to-gray-300 p-6">
       <button
         onClick={handleLogout}
-        className="absolute top-4 right-4 px-4 py-2 flex items-center gap-2 bg-gray-800 text-white rounded hover:bg-gray-600 transition"
+        className="absolute top-4 right-4 px-4 py-2 flex items-center gap-2 bg-gray-800 text-white rounded-md hover:bg-gray-600 transition"
       >
         <FaSignOutAlt size={18} /> Logout
       </button>
@@ -93,9 +93,9 @@ const Home = () => {
 
           <button
             onClick={() => openModal()}
-            className="px-4 py-2 bg-gray-800 text-white hover:bg-gray-500 transition flex items-center gap-2 rounded"
+            className="px-4 py-2 bg-gray-800 text-white hover:bg-gray-500 transition flex items-center gap-2 rounded-md"
           >
-            <FaPlus size={20} /> Add Book
+            <FaPlus size={15} /> Add Book
           </button>
         </div>
 

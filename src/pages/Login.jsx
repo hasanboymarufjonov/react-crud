@@ -30,7 +30,7 @@ const Login = () => {
       <div className="w-full max-w-sm bg-white shadow-xl rounded-lg p-6 flex flex-col items-center">
         <div className="mb-6">
           <img
-            src="https://cdn-icons-png.flaticon.com/512/681/681443.png"
+            src="https://img.icons8.com/puffy/1e2939/500/user.png"
             alt="App Logo"
             className="w-16 h-16"
           />
