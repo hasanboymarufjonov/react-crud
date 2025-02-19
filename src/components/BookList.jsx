@@ -1,6 +1,13 @@
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
-import { FaEdit, FaTrash, FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
+import {
+  FaEdit,
+  FaTrash,
+  FaSort,
+  FaSortUp,
+  FaSortDown,
+  FaBoxOpen,
+} from "react-icons/fa";
 
 const BookList = ({ books, onEdit, onDelete }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -85,7 +92,9 @@ const BookList = ({ books, onEdit, onDelete }) => {
             {currentBooks.map((book, index) => (
               <tr
                 key={book.id}
-                className="border-b hover:bg-gray-50 transition"
+                className={`border-b hover:bg-gray-50 transition ${
+                  index % 2 !== 0 ? "bg-gray-200" : ""
+                }`}
               >
                 <td className="p-3 text-center text-gray-800">
                   {offset + index + 1}
@@ -105,7 +114,7 @@ const BookList = ({ books, onEdit, onDelete }) => {
                 </td>
                 <td className="p-2 text-center">
                   <button
-                    className="px-3 py-1 bg-gray-500 text-white hover:bg-gray-600 flex items-center gap-1"
+                    className="px-3 py-1 bg-gray-600 text-white hover:bg-gray-700 flex items-center gap-1"
                     onClick={() => onEdit(book)}
                   >
                     <FaEdit /> Edit
@@ -113,7 +122,7 @@ const BookList = ({ books, onEdit, onDelete }) => {
                 </td>
                 <td className="p-2 text-center">
                   <button
-                    className="px-3 py-1 bg-gray-700 text-white hover:bg-gray-800 flex items-center gap-1"
+                    className="px-3 py-1 bg-gray-800 text-white hover:bg-gray-900 flex items-center gap-1"
                     onClick={() => onDelete(book.id)}
                   >
                     <FaTrash /> Delete
@@ -123,8 +132,11 @@ const BookList = ({ books, onEdit, onDelete }) => {
             ))}
             {books.length === 0 && (
               <tr>
-                <td colSpan="10" className="p-3 text-center text-gray-500">
-                  No books found.
+                <td colSpan="10" className="py-28 text-center text-gray-500">
+                  <img
+                    src="https://img.icons8.com/ios-filled/111421/300/inbox.png"
+                    className="mx-auto w-28"
+                  />
                 </td>
               </tr>
             )}

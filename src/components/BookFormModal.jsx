@@ -53,7 +53,7 @@ const BookFormModal = ({ editBook, onSubmit, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-white/30 backdrop-blur-[1px]">
-      <div className="bg-white p-6 shadow-lg w-full max-w-md border border-gray-300">
+      <div className="bg-white p-6 shadow-lg w-full max-w-md border border-gray-300 rounded-md">
         <h2 className="text-xl font-bold mb-4">
           {editBook ? "Edit Book" : "Add Book"}
         </h2>
@@ -146,14 +146,14 @@ const BookFormModal = ({ editBook, onSubmit, onClose }) => {
           <div className="flex justify-end space-x-2">
             <button
               type="button"
-              className="px-4 py-2 bg-gray-300 text-gray-700 hover:bg-gray-400 transition"
+              className="px-4 py-2 bg-gray-300 text-gray-700 hover:bg-gray-400 transition rounded-md"
               onClick={onClose}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-gray-800 text-white hover:bg-gray-600 transition"
+              className="px-4 py-2 bg-gray-800 text-white hover:bg-gray-600 transition rounded-md"
             >
               {editBook ? "Update" : "Add"}
             </button>
