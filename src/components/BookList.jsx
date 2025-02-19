@@ -1,6 +1,18 @@
+import { useState } from "react";
+import ReactPaginate from "react-paginate";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 const BookList = ({ books, onEdit, onDelete }) => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const booksPerPage = 5;
+  const offset = currentPage * booksPerPage;
+  const currentBooks = books.slice(offset, offset + booksPerPage);
+  const pageCount = Math.ceil(books.length / booksPerPage);
+
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
   return (
     <div className="w-full max-h-[500px]">
       <div className="overflow-x-auto">
@@ -26,12 +38,14 @@ const BookList = ({ books, onEdit, onDelete }) => {
             </tr>
           </thead>
           <tbody>
-            {books.map((book, index) => (
+            {currentBooks.map((book, index) => (
               <tr
                 key={book.id}
                 className="border-b hover:bg-gray-50 transition"
               >
-                <td className="p-3 text-center text-gray-800">{index + 1}</td>
+                <td className="p-3 text-center text-gray-800">
+                  {offset + index + 1}
+                </td>
                 <td className="p-3 text-center text-gray-800">{book.title}</td>
                 <td className="p-3 text-center text-gray-800">{book.author}</td>
                 <td className="p-3 text-center text-gray-800">{book.genre}</td>
@@ -73,6 +87,24 @@ const BookList = ({ books, onEdit, onDelete }) => {
           </tbody>
         </table>
       </div>
+
+      {books.length > booksPerPage && (
+        <ReactPaginate
+          previousLabel={"← Previous"}
+          nextLabel={"Next →"}
+          breakLabel={"..."}
+          pageCount={pageCount}
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={3}
+          onPageChange={handlePageClick}
+          containerClassName={"flex justify-center mt-4 space-x-2"}
+          pageClassName={"px-3 py-2 border rounded-md cursor-pointer"}
+          activeClassName={"bg-gray-800 text-white"}
+          previousClassName={"px-3 py-2 border rounded-md cursor-pointer"}
+          nextClassName={"px-3 py-2 border rounded-md cursor-pointer"}
+          disabledClassName={"opacity-50 cursor-not-allowed"}
+        />
+      )}
     </div>
   );
 };

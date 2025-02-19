@@ -78,7 +78,6 @@ const BookFormModal = ({ editBook, onSubmit, onClose }) => {
             <p className="text-red-500 text-sm">{errors.author.message}</p>
           )}
 
-          {/* Genre Select */}
           <select
             {...register("genre", { required: "Genre is required" })}
             className="p-2 border w-full"
