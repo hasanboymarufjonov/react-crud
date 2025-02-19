@@ -13,7 +13,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 
-const Home = () => {
+const HomePage = () => {
   const [books, setBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -84,7 +84,7 @@ const Home = () => {
         Hello, {auth.currentUser?.displayName || "User"}!
       </p>
 
-      <div className="w-full max-w-6xl bg-white p-6 shadow-2xl rounded-xl ">
+      <div className="w-full max-w-8xl bg-white p-6 shadow-2xl rounded-xl ">
         <div className="mb-6 flex items-center justify-between">
           <BookSearch
             searchQuery={searchQuery}
@@ -117,4 +117,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

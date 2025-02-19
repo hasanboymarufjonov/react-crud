@@ -1,13 +1,6 @@
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
-import {
-  FaEdit,
-  FaTrash,
-  FaSort,
-  FaSortUp,
-  FaSortDown,
-  FaBoxOpen,
-} from "react-icons/fa";
+import { FaEdit, FaTrash, FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 
 const BookList = ({ books, onEdit, onDelete }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -132,7 +125,7 @@ const BookList = ({ books, onEdit, onDelete }) => {
             ))}
             {books.length === 0 && (
               <tr>
-                <td colSpan="10" className="py-28 text-center text-gray-500">
+                <td colSpan="10" className="py-24 text-center text-gray-500">
                   <img
                     src="https://img.icons8.com/ios-filled/1e2939/300/inbox.png"
                     className="mx-auto w-28"

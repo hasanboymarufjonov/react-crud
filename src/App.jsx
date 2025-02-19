@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import { auth } from "./firebaseConfig";
 import { useEffect, useState } from "react";
 
@@ -18,14 +18,17 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
+        <Route
+          path="/"
+          element={user ? <HomePage /> : <Navigate to="/login" />}
+        />
         <Route
           path="/login"
-          element={!user ? <Login /> : <Navigate to="/" />}
+          element={!user ? <LoginPage /> : <Navigate to="/" />}
         />
         <Route
           path="/register"
-          element={!user ? <Register /> : <Navigate to="/" />}
+          element={!user ? <RegisterPage /> : <Navigate to="/" />}
         />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
