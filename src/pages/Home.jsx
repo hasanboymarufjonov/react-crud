@@ -7,21 +7,39 @@ import {
 } from "../services/firebaseService";
 import BookList from "../components/BookList";
 import BookFormModal from "../components/BookFormModal";
-import { FaBook, FaPlus, FaSignOutAlt } from "react-icons/fa";
+import BookSearch from "../components/BookSearch";
+import { FaPlus, FaSignOutAlt } from "react-icons/fa";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [books, setBooks] = useState([]);
+  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [editBook, setEditBook] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = getBooks(setBooks);
+    const unsubscribe = getBooks((bookList) => {
+      setBooks(bookList);
+      setFilteredBooks(bookList);
+    });
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    const lowercasedQuery = searchQuery.toLowerCase();
+    setFilteredBooks(
+      books.filter(
+        (book) =>
+          book.title.toLowerCase().includes(lowercasedQuery) ||
+          book.author.toLowerCase().includes(lowercasedQuery) ||
+          book.genre.toLowerCase().includes(lowercasedQuery)
+      )
+    );
+  }, [searchQuery, books]);
 
   const openModal = (book = null) => {
     setEditBook(book);
@@ -66,22 +84,26 @@ const Home = () => {
         Hello, {auth.currentUser?.displayName || "User"}!
       </p>
 
-      <div className="w-full max-w-5xl bg-white p-6 shadow-2xl rounded-xl">
-        <h1 className="text-3xl font-bold mb-6 text-center text-gray-900 flex items-center justify-center gap-3">
-          <FaBook /> Book Collection
-        </h1>
-        <hr />
+      <div className="w-full max-w-5xl bg-white p-6 shadow-2xl rounded-xl ">
+        <div className="mb-6 flex items-center justify-between">
+          <BookSearch
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
 
-        <div className="mb-6 text-right pt-5">
           <button
             onClick={() => openModal()}
-            className="px-4 py-2 bg-gray-800 text-white hover:bg-gray-500 transition flex items-center gap-2 ml-auto"
+            className="px-4 py-2 bg-gray-800 text-white hover:bg-gray-500 transition flex items-center gap-2 rounded"
           >
             <FaPlus size={20} /> Add Book
           </button>
         </div>
 
-        <BookList books={books} onEdit={openModal} onDelete={handleDelete} />
+        <BookList
+          books={filteredBooks}
+          onEdit={openModal}
+          onDelete={handleDelete}
+        />
       </div>
 
       {isModalOpen && (

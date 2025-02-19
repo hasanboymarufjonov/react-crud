@@ -1,6 +1,27 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
+const genres = [
+  "Fiction",
+  "Non-Fiction",
+  "Science Fiction",
+  "Fantasy",
+  "Mystery",
+  "Thriller",
+  "Biography",
+  "History",
+  "Self-Help",
+];
+
+const languages = [
+  "English",
+  "Spanish",
+  "French",
+  "German",
+  "Chinese",
+  "Uzbek",
+];
+
 const BookFormModal = ({ editBook, onSubmit, onClose }) => {
   const {
     register,
@@ -57,12 +78,18 @@ const BookFormModal = ({ editBook, onSubmit, onClose }) => {
             <p className="text-red-500 text-sm">{errors.author.message}</p>
           )}
 
-          <input
-            type="text"
-            placeholder="Genre"
+          {/* Genre Select */}
+          <select
             {...register("genre", { required: "Genre is required" })}
             className="p-2 border w-full"
-          />
+          >
+            <option value="">Select Genre</option>
+            {genres.map((genre) => (
+              <option key={genre} value={genre}>
+                {genre}
+              </option>
+            ))}
+          </select>
           {errors.genre && (
             <p className="text-red-500 text-sm">{errors.genre.message}</p>
           )}
@@ -102,12 +129,18 @@ const BookFormModal = ({ editBook, onSubmit, onClose }) => {
             <p className="text-red-500 text-sm">{errors.pageCount.message}</p>
           )}
 
-          <input
-            type="text"
-            placeholder="Language"
+          {/* Language Select */}
+          <select
             {...register("language", { required: "Language is required" })}
             className="p-2 border w-full"
-          />
+          >
+            <option value="">Select Language</option>
+            {languages.map((lang) => (
+              <option key={lang} value={lang}>
+                {lang}
+              </option>
+            ))}
+          </select>
           {errors.language && (
             <p className="text-red-500 text-sm">{errors.language.message}</p>
           )}
