@@ -12,6 +12,7 @@ import { FaPlus, FaSignOutAlt } from "react-icons/fa";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const HomePage = () => {
   const [books, setBooks] = useState([]);
@@ -60,8 +61,10 @@ const HomePage = () => {
     setIsLoading(true);
     if (editBook) {
       await updateBook(editBook.id, bookData);
+      toast.success("Book updated successfully!");
     } else {
       await addBook(bookData);
+      toast.success("Book added successfully!");
     }
     closeModal();
     setIsLoading(false);
@@ -72,6 +75,7 @@ const HomePage = () => {
     if (window.confirm("Are you sure you want to delete this book?")) {
       await deleteBook(id);
     }
+    toast.success("Book deleted successfully!");
     setIsLoading(false);
   };
 
