@@ -1,8 +1,9 @@
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 import { FaEdit, FaTrash, FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
+import BookListSkeleton from "./BookListSkeleton";
 
-const BookList = ({ books, onEdit, onDelete }) => {
+const BookList = ({ books, onEdit, onDelete, isLoading }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
@@ -38,6 +39,8 @@ const BookList = ({ books, onEdit, onDelete }) => {
     if (sortConfig.key !== key) return <FaSort />;
     return sortConfig.direction === "asc" ? <FaSortUp /> : <FaSortDown />;
   };
+
+  if (isLoading) return <BookListSkeleton />;
 
   return (
     <div className="w-full max-h-[500px]">

@@ -19,17 +19,22 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [editBook, setEditBook] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsLoading(true);
     const unsubscribe = getBooks((bookList) => {
       setBooks(bookList);
       setFilteredBooks(bookList);
+      setIsLoading(false);
     });
     return () => unsubscribe();
   }, []);
 
   useEffect(() => {
+    setIsLoading(true);
     const lowercasedQuery = searchQuery.toLowerCase();
     setFilteredBooks(
       books.filter(
@@ -39,6 +44,7 @@ const HomePage = () => {
           book.genre.toLowerCase().includes(lowercasedQuery)
       )
     );
+    setIsLoading(false);
   }, [searchQuery, books]);
 
   const openModal = (book = null) => {
@@ -51,18 +57,22 @@ const HomePage = () => {
   };
 
   const handleSubmit = async (bookData) => {
+    setIsLoading(true);
     if (editBook) {
       await updateBook(editBook.id, bookData);
     } else {
       await addBook(bookData);
     }
     closeModal();
+    setIsLoading(false);
   };
 
   const handleDelete = async (id) => {
+    setIsLoading(true);
     if (window.confirm("Are you sure you want to delete this book?")) {
       await deleteBook(id);
     }
+    setIsLoading(false);
   };
 
   const handleLogout = async () => {
@@ -101,6 +111,7 @@ const HomePage = () => {
 
         <BookList
           books={filteredBooks}
+          isLoading={isLoading}
           onEdit={openModal}
           onDelete={handleDelete}
         />
